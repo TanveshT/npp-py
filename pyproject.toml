@@ -1,0 +1,41 @@
+[build-system]
+requires = [
+  "scikit-build-core>=0.8.0",
+  "pybind11>=2.11.0",
+]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "npp-py"
+version = "0.1.0"
+description = "Thin PyBind11 wrapper around NPP library"
+authors = [{ name = "Tanvesh Takawale", email = "tanveshtakawale26@gmail.com" }]
+requires-python = ">=3.9"
+dependencies = [
+  "numpy>=1.20",
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: C++",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+]
+
+[project.urls]
+Homepage = "https://github.com/TanveshT/npp-py"
+
+[project.optional-dependencies]
+dev = [
+  "build",
+  "ninja",
+  "pytest",
+]
+
+[tool.scikit-build]
+cmake.version = ">=3.22"
+cmake.build-type = "Release"
+wheel.py-api = "py3"
+build-dir = "build"
+
+[tool.scikit-build.sdist]
+include = ["src/npp_wrapper.cpp", "src/npp_wrapper.pyi", "CMakeLists.txt"]
