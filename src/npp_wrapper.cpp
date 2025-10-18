@@ -22,8 +22,7 @@ static NppiInterpolationMode to_nppi_inter(const std::string& inter){
     if (inter == "nearest") return NPPI_INTER_NN;
     if (inter == "bilinear")  return NPPI_INTER_LINEAR;
     if (inter == "cubic")   return NPPI_INTER_CUBIC;
-    // fallback
-    return NPPI_INTER_LINEAR;
+    throw std::invalid_argument("Unknown interpolation mode: " + inter);
 }
 
 py::array_t<float> resize_32f(py::array_t<float, py::array::c_style | py::array::forcecast> img,

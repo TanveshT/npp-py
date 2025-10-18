@@ -8,6 +8,6 @@ def resize_32f(
     img: np.ndarray,
     out_h: int,
     out_w: int,
-    inter: Literal["nearest", "linear", "cubic"] = "linear",
+    inter: Literal["nearest", "bilinear", "cubic"] = "bilinear",
     layout: Literal["auto", "hwc", "chw"] = "auto",
 ) -> np.ndarray: ...
