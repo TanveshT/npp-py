@@ -47,20 +47,38 @@ pip install --upgrade pip
 
 ## Usage
 
-### Resize (current export)
+### Resize helpers
 
-Below is a minimal example for the resize helper:
+Below is a minimal example for the basic resize helper:
 
 ```python
 import numpy as np
 import npp_wrapper
 
 img = np.random.rand(1080, 1920, 3).astype("float32")
-resized = npp_wrapper.resize_32f(img, 640, 640, inter="linear", layout="hwc")
+resized = npp_wrapper.resize_32f(img, 640, 640, inter="bilinear", layout="hwc")
 ```
 
-- `inter` accepts `"nearest"`, `"linear"`, or `"cubic"`.
+- `inter` accepts `"nearest"`, `"bilinear"`, or `"cubic"`.
 - `layout` decides how channel dimensions are interpreted (`"auto"`, `"hwc"`, `"chw"`).
+
+The module also exposes `resize_sqr_pixel_32f`, which wraps the `nppiResizeSqrPixel_*` family and allows you to tweak scaling factors and pixel shifts explicitly:
+
+```python
+scaled = npp_wrapper.resize_sqr_pixel_32f(
+    img,
+    640,
+    640,
+    scale_y=None,  # by default uses out_h / in_h
+    scale_x=None,  # by default uses out_w / in_w
+    shift_y=0.0,
+    shift_x=0.0,
+    inter="bilinear",
+    layout="hwc",
+)
+```
+
+If you provide custom `scale_x` / `scale_y`, ensure they align with the output size you request; otherwise, NPP will still resample using the factors you specify, relative to the ROI you pass.
 
 ### Extending the Module
 
